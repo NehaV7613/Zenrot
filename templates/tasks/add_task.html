@@ -15,11 +15,15 @@
             {% csrf_token %}
             <div class="mb-3">
                 <label for="id_title" class="form-label">Title</label>
-                <input type="text" name="title" class="form-control" id="id_title" required>
+                <input type="text" name="title" class="form-control" id="id_title" placeholder="Enter task title" required>
             </div>
             <div class="mb-3">
                 <label for="id_description" class="form-label">Description</label>
-                <textarea name="description" class="form-control" id="id_description"></textarea>
+                <textarea name="description" class="form-control" id="id_description" placeholder="Enter task description (optional)"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="id_date" class="form-label">Date</label>
+                <input type="date" name="date" class="form-control" id="id_date" required>
             </div>
             <div class="mb-3">
                 <label for="id_start_time" class="form-label">Start Time</label>
@@ -29,8 +33,19 @@
                 <label for="id_end_time" class="form-label">End Time</label>
                 <input type="time" name="end_time" class="form-control" id="id_end_time" required>
             </div>
+            <div class="mb-3">
+                <label for="id_proof_of_work" class="form-label">Proof of Work (Optional)</label>
+                <input type="file" name="proof_of_work" class="form-control" id="id_proof_of_work">
+            </div>
             <button type="submit" class="btn btn-primary">Add Task</button>
         </form>
     </div>
+
+    <script>
+        // Ensure the selected date is today or in the future
+        const dateInput = document.getElementById("id_date");
+        const today = new Date().toISOString().split("T")[0];
+        dateInput.setAttribute("min", today);
+    </script>
 </body>
 </html>

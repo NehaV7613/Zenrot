@@ -22,6 +22,7 @@
                         <th>#</th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Status</th>
@@ -30,17 +31,22 @@
                 </thead>
                 <tbody>
                     {% for task in tasks %}
-                    <tr>
+                    <tr id="task-{{ task.id }}">
                         <td>{{ forloop.counter }}</td>
                         <td>{{ task.title }}</td>
                         <td>{{ task.description|default:"No description provided" }}</td>
-                        <td>{{ task.start_time|date:"H:i" }}</td>
-                        <td>{{ task.end_time|date:"H:i" }}</td>
+                        <td>{{ task.date|date:"Y-m-d" }}</td> <!-- Show task date -->
+                        <td>{{ task.start_time|date:"h:i A" }}</td> <!-- AM/PM format for start time -->
+                        <td>{{ task.end_time|date:"h:i A" }}</td> <!-- AM/PM format for end time -->
                         <td>
-                            {% if task.is_completed %}
-                                <span class="badge bg-success">Completed</span>
+                            {% if task.status == "Completed" %}
+                                <span class="badge bg-success">{{ task.status }}</span>
+                            {% elif task.status == "Time Over" %}
+                                <span class="badge bg-danger">{{ task.status }}</span>
+                            {% elif task.status == "Pending Proof of Work" %}
+                                <span class="badge bg-warning text-dark">{{ task.status }}</span>
                             {% else %}
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-info">{{ task.status }}</span>
                             {% endif %}
                         </td>
                         <td>
@@ -56,5 +62,22 @@
             <p>No tasks added yet. Click "Add Task" to get started!</p>
         {% endif %}
     </div>
+
+    <script>
+        // Function to dynamically update task status
+        function updateTaskStatus() {
+            fetch('/update-task-status/')  // Backend endpoint to check for status updates
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'updated') {
+                    location.reload();  // Reload the page to display updated task statuses
+                }
+            })
+            .catch(error => console.error('Error updating task status:', error));
+        }
+
+        // Call the function to update task status every 30 seconds
+        setInterval(updateTaskStatus, 30000);
+    </script>
 </body>
 </html>

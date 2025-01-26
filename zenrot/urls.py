@@ -23,4 +23,5 @@ urlpatterns = [
     path('', index, name='home'),  # Now the base URL points to the index view
     path('accounts/', include('accounts.urls')),
     path('tasks/', include('tasks.urls')),
+    path('update-task-status/', include('social_media.urls'))
 ]
