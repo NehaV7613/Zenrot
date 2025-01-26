@@ -1,0 +1,167 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Template</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block bg-primary sidebar">
+        <div class="sidebar-sticky">
+          <h4 class="text-white p-3">Little</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">
+                <i class="bi bi-house-door"></i> Register
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">
+                <i class="bi bi-people"></i> Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">
+                <i class="bi bi-bar-chart"></i> Analytics
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">
+                <i class="bi bi-file-text"></i> Reports
+              </a>
+            </li>
+            <li class="nav-item mt-4">
+              <a class="nav-link text-white" href="#">
+                <i class="bi bi-gear"></i> Settings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'accounts:logout' %}">
+                <i class="bi bi-box-arrow-left"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-10 ms-sm-auto px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+          <h1 class="h4">Dashboard</h1>
+          <div class="profile">
+            <img src="{% static 'https://via.placeholder.com/40' %}" class="rounded-circle" alt="User">
+            <span class="ms-2">{{ user.username }}</span>
+          </div>
+          <div class="login-button mt-4">
+            <button 
+                onclick="location.href='{% url 'accounts:login' %}'" 
+                class="px-6 py-3 text-white bg-blue-600 rounded-2xl shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
+                Login
+            </button>
+          </div>
+        </div>
+
+        <!-- Overview Cards -->
+        <div class="row my-4">
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+              <h6>Revenue</h6>
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+              <h6>Expenses</h6>
+              <canvas id="expensesChart"></canvas>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+              <h6>Sales</h6>
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages and To-Do List -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card shadow-sm p-3">
+              <h6>Recent Messages</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Wade Warren - Meeting scheduled</li>
+                <li class="list-group-item">Jenny Wilson - Marketing updates</li>
+                <li class="list-group-item">Robert Fox - Sales boost by 2x</li>
+                <li class="list-group-item">Jane Cooper - Tips for product launch</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow-sm p-3">
+              <h6>Your To-Do List</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Choose perfect product idea</li>
+                <li class="list-group-item">Attend the meeting</li>
+                <li class="list-group-item">Run payroll</li>
+                <li class="list-group-item">Attend launch program</li>
+                <li class="list-group-item">Sign board resolution</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+  <script>
+    const revenueChart = new Chart(document.getElementById('revenueChart'), {
+      type: 'line',
+      data: {
+        labels: ['January', 'February', 'March'],
+        datasets: [{
+          label: 'Revenue',
+          data: [12, 19, 3],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      }
+    });
+
+    const expensesChart = new Chart(document.getElementById('expensesChart'), {
+      type: 'bar',
+      data: {
+        labels: ['January', 'February', 'March'],
+        datasets: [{
+          label: 'Expenses',
+          data: [5, 12, 8],
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      }
+    });
+
+    const salesChart = new Chart(document.getElementById('salesChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Product A', 'Product B', 'Product C'],
+        datasets: [{
+          data: [30, 50, 20],
+          backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'],
+          borderWidth: 1
+        }]
+      }
+    });
+  </script>
+</body>
+</html>
